@@ -8,11 +8,11 @@ supported protocol varients:
  - ~~XMODEM-CRC~~
  - ~~XMODEM-1K~~
 
-protocol customizations:
+protocol customizations/overrides:
  - timeouts
  - attempts
  - MTU
- - begin/transmit/receive/end/cancel functions
+ - internal functions
 
 ## Requirements
 
