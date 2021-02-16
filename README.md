@@ -16,7 +16,9 @@ protocol customizations/overrides:
 
 ## Requirements
 
+```code
 #include <stdint.h>
+```
 
 ## API
 
