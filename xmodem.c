@@ -158,10 +158,8 @@ static int32_t transmitEnd(xmodemContext_t* pContext) {
 
             pContext->iface.write(EOT);
             pContext->iface.flush();
-            
-            int32_t code = xmodemWait(pContext, 1);
 
-            switch (code) {
+            switch (xmodemWait(pContext, 1)) {
                 case ACK:
                     retCode = xmodemErrorNone;
                     i = pContext->attempts;
@@ -217,17 +215,17 @@ static int32_t receiveData(xmodemContext_t* pContext, uint8_t* pMessage, uint32_
 
                 switch (xmodemWait(pContext, 1)) {
                     case SOH:
-                        packetNum = xmodemWait(pContext, 1);//pContext->read();
-                        invertedPacketNum = ~xmodemWait(pContext, 1);//pContext->read();
+                        packetNum = (uint8_t)xmodemWait(pContext, 1);
+                        invertedPacketNum = (uint8_t)~xmodemWait(pContext, 1);
 
                         if (messageNumber == packetNum && messageNumber == invertedPacketNum) {
                             
                             for (uint32_t i = 0; i < pContext->mtu; i++) {
-                                pMessage[i] = xmodemWait(pContext, pContext->mtu - i);//pContext->read();
+                                pMessage[i] = (uint8_t)xmodemWait(pContext, pContext->mtu - i);
                                 (*pBytesCopied)++;
                             }
 
-                            checksum = xmodemWait(pContext, 1);//pContext->read();
+                            checksum = (uint8_t)xmodemWait(pContext, 1);
                             
                             if (checksum == xmodemChecksum(pMessage, pContext->mtu, 0)) {
                                 retCode = xmodemErrorNone;
